@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Nav from "./components/Nav";
@@ -26,8 +24,6 @@ import NewPasswordScreen from "./screens/NewPasswordScreen";
 
 import PrivateRoute from "./components/PrivateRoute";
 import PrivateRouteRole from "./components/PrivaRouteRole";
-
-import { logout } from "./actions/userActions";
 
 const App = () => {
   return (
