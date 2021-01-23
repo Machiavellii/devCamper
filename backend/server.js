@@ -66,15 +66,28 @@ app.use(hpp());
 // Enable CORS
 app.use(cors());
 
-// Static folder
-app.use(express.static(path.join(__dirname, "public")));
-
 // Mount routers
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
 app.use("/api/v1/reviews", reviews);
+
+const __dirname = path.resolve();
+// Static folder
+app.use(express.static(path.join(__dirname, "public")));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/client/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running....");
+  });
+}
 
 app.use(errorHandler);
 
@@ -86,14 +99,6 @@ const server = app.listen(
     `Server Running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
   )
 );
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/client/build")));
-
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-  );
-}
 
 //Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
