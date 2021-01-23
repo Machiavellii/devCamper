@@ -50,6 +50,8 @@ const ManageBootcampScreen = ({ history }) => {
     setPicture(URL.createObjectURL(e.target.files[0]));
   };
 
+  console.log(bootcamp);
+
   const onSubmit = (e) => {
     e.preventDefault();
     const id = bootcamp.id;

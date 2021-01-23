@@ -75,7 +75,7 @@ app.use("/api/v1/reviews", reviews);
 
 const _dirname = path.resolve();
 // Static folder
-app.use(express.static(path.join(_dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(_dirname, "/client/build")));
@@ -84,8 +84,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(_dirname, "client", "build", "index.html"))
   );
 }
-
-console.log(path.resolve(_dirname, "client", "build", "index.html"));
 
 app.use(errorHandler);
 
