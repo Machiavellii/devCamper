@@ -38,9 +38,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Static folder
-app.use(express.static(path.join(__dirname, "public")));
-
 // Cookie Parser
 app.use(cookieParser());
 
@@ -75,6 +72,9 @@ app.use("/api/v1/courses", courses);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
 app.use("/api/v1/reviews", reviews);
+
+// Static folder
+app.use(express.static(path.join(__dirname, "public")));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("/client/build"));
