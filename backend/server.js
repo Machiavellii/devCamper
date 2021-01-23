@@ -73,16 +73,19 @@ app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
 app.use("/api/v1/reviews", reviews);
 
+const _dirname = path.resolve();
 // Static folder
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(_dirname, "public")));
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("/client/build"));
+  app.use(express.static(path.join(_dirname, "/client/build")));
 
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+    res.sendFile(path.resolve(_dirname, "client", "build", "index.html"))
   );
 }
+
+console.log(path.resolve(_dirname, "client", "build", "index.html"));
 
 app.use(errorHandler);
 
