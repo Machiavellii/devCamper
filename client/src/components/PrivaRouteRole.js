@@ -15,7 +15,7 @@ const PrivateRouteRole = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        role === "publisher" && userInfo ? (
+        role === "publisher" || ("admin" && userInfo) ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

@@ -12,7 +12,10 @@ import Progress from "../components/Progress";
 
 import { Link } from "react-router-dom";
 
-import { UPLOAD_BOOTCAMP_COVER_RESET } from "../constants/bootcampConstants";
+import {
+  GET_BOOTCAMP_RESET,
+  UPLOAD_BOOTCAMP_COVER_RESET,
+} from "../constants/bootcampConstants";
 
 const ManageBootcampScreen = ({ history }) => {
   const [image, setImage] = useState(null);
@@ -20,6 +23,11 @@ const ManageBootcampScreen = ({ history }) => {
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
   const dispatch = useDispatch();
+
+  const userDetails = useSelector((state) => state.userDetails);
+  const {
+    user: { role },
+  } = userDetails;
 
   const myBootcamp = useSelector((state) => state.getMyBootcamp);
   const { loading, error, bootcamp } = myBootcamp;
@@ -35,7 +43,12 @@ const ManageBootcampScreen = ({ history }) => {
   } = bootcampDelete;
 
   useEffect(() => {
-    dispatch(getBootcampMe());
+    if (role === "admin") {
+      history.push(`/admin-manage-bootcamps`);
+    } else {
+      dispatch({ type: GET_BOOTCAMP_RESET });
+      dispatch(getBootcampMe());
+    }
 
     if (successPhoto) {
       dispatch({ type: UPLOAD_BOOTCAMP_COVER_RESET });
@@ -49,8 +62,6 @@ const ManageBootcampScreen = ({ history }) => {
     setImage(e.target.files[0]);
     setPicture(URL.createObjectURL(e.target.files[0]));
   };
-
-  console.log(bootcamp);
 
   const onSubmit = (e) => {
     e.preventDefault();

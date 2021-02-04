@@ -6,13 +6,15 @@ const ShowScreen = ({ history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (zipcode && miles) {
-    //   history.push({
-    //     pathname: "/bootcamps",
-    //     zipcode,
-    //     miles,
-    //   });
-    // }
+
+    localStorage.removeItem("zipcode");
+    localStorage.removeItem("miles");
+
+    if (zipcode && miles) {
+      localStorage.setItem("zipcode", JSON.stringify(zipcode));
+      localStorage.setItem("miles", JSON.stringify(miles));
+      history.push("/bootcampsradius");
+    }
   };
 
   return (

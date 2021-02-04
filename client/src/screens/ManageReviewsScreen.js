@@ -64,28 +64,48 @@ const ManageReviewsScreen = () => {
                 </thead>
 
                 <tbody>
-                  {reviews.map(
-                    (review) =>
-                      review.user === user._id && (
-                        <tr key={review._id}>
-                          <td>{review.title}</td>
-                          <td>{review.rating}</td>
-                          <td>
-                            <Link
-                              to={`/edit-review/${review._id}`}
-                              className="btn btn-secondary"
-                            >
-                              <i className="fas fa-pencil-alt"></i>
-                            </Link>
-                            <button
-                              className="btn btn-danger"
-                              onClick={() => deleteHandler(review._id)}
-                            >
-                              <i className="fas fa-times"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      )
+                  {reviews.map((review) =>
+                    review.user === user._id ? (
+                      <tr key={review._id}>
+                        <td>{review.title}</td>
+                        <td>{review.rating}</td>
+                        <td>
+                          <Link
+                            to={`/edit-review/${review._id}`}
+                            className="btn btn-secondary"
+                          >
+                            <i className="fas fa-pencil-alt"></i>
+                          </Link>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => deleteHandler(review._id)}
+                          >
+                            <i className="fas fa-times"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ) : user.role === "admin" ? (
+                      <tr key={review._id}>
+                        <td>{review.title}</td>
+                        <td>{review.rating}</td>
+                        <td>
+                          <Link
+                            to={`/edit-review/${review._id}`}
+                            className="btn btn-secondary"
+                          >
+                            <i className="fas fa-pencil-alt"></i>
+                          </Link>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => deleteHandler(review._id)}
+                          >
+                            <i className="fas fa-times"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ) : (
+                      ""
+                    )
                   )}
                 </tbody>
               </table>

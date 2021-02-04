@@ -7,19 +7,19 @@ import Spinner from "../components/Spinner";
 import Message from "../components/Message";
 
 import { GET_BOOTCAMP_RADIUS_RESET } from "../constants/bootcampConstants";
+import Pagination from "../components/Pagination";
 
-const BootcampsScreen = ({ match, location }) => {
+const BootcampsScreen = ({ match }) => {
+  const limit = match.params.limit || 2;
+
   const [miles, setMiles] = useState("");
   const [zipcode, setZipcode] = useState("");
-
-  const limit = match.params.limit || 5;
-
-  // const { zipcode, miles } = location;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const dispatch = useDispatch();
 
   const bootcampsList = useSelector((state) => state.bootcampList);
-  const { loading, error, bootcamps, pages, page } = bootcampsList;
+  const { loading, error, bootcamps, pages, count } = bootcampsList;
 
   const radius = useSelector((state) => state.bootcampsRadius);
   const {
@@ -44,7 +44,19 @@ const BootcampsScreen = ({ match, location }) => {
     dispatch({ type: GET_BOOTCAMP_RADIUS_RESET });
   };
 
-  console.log(bootcampsRadius);
+  // Get current posts
+  const indexOfLastContent = currentPage * limit;
+  const indexOfFirstContent = indexOfLastContent - limit;
+
+  const currentContent = bootcamps.slice(
+    indexOfFirstContent,
+    indexOfLastContent
+  );
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  console.log(currentContent);
 
   return (
     <section className="browse my-6">
@@ -214,7 +226,7 @@ const BootcampsScreen = ({ match, location }) => {
                     </div>
                   </div>
                 ))
-              : bootcamps.map((bootcamp) => (
+              : currentContent.map((bootcamp) => (
                   <div className="card mb-3" key={bootcamp._id}>
                     <div className="row no-gutters">
                       <div className="col-md-4">
@@ -258,35 +270,11 @@ const BootcampsScreen = ({ match, location }) => {
                   </div>
                 ))}
 
-            <nav aria-label="Page navigation example">
-              <ul className="pagination">
-                <li className="page-item">
-                  <a className="page-link" href="#!">
-                    Previous
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#!">
-                    1
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#!">
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#!">
-                    3
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#!">
-                    Next
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Pagination
+              contentsPerPage={limit}
+              totalContent={bootcamps.length}
+              paginate={paginate}
+            />
           </div>
         </div>
       </div>

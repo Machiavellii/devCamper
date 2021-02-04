@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { updateBootcamp, getBootcampMe } from "../actions/bootcampActions";
+import { updateBootcamp, getBootcamp } from "../actions/bootcampActions";
 import Spinner from "../components/Spinner";
 import Message from "../components/Message";
 // import Select from "react-select";
@@ -28,7 +28,7 @@ const EditBootcampScreen = ({ match, history }) => {
 
   const dispatch = useDispatch();
 
-  const myBootcamp = useSelector((state) => state.getMyBootcamp);
+  const myBootcamp = useSelector((state) => state.getBootcamp);
   const { loading, error, bootcamp } = myBootcamp;
 
   const bootcampUpdate = useSelector((state) => state.updateBootcamp);
@@ -44,7 +44,7 @@ const EditBootcampScreen = ({ match, history }) => {
       history.push("/manage-bootcamp");
     } else {
       if (!bootcamp || !bootcamp.name) {
-        dispatch(getBootcampMe());
+        dispatch(getBootcamp(bootcampId));
       } else {
         setName(bootcamp.name);
         setDescription(bootcamp.description);

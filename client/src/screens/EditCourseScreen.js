@@ -31,23 +31,35 @@ const EditCourseScreen = ({ match, history }) => {
     success: successUpdate,
   } = courseUpdate;
 
+  const userDetails = useSelector((state) => state.userDetails);
+  const {
+    user: { role },
+  } = userDetails;
+
   useEffect(() => {
-    if (successUpdate) {
+    if (role === "admin" && successUpdate) {
       dispatch({ type: COURSE_UPDATE_RESET });
-      history.push("/manage-courses");
+      history.push(`/admin-manage-courses/${course.bootcamp.id}`);
+      localStorage.removeItem("bootcampId");
+      localStorage.setItem("bootcampId", JSON.stringify(course.bootcamp.id));
     } else {
-      if (!course || !course.title || course._id !== courseId) {
-        dispatch(getCourse(courseId));
+      if (successUpdate) {
+        dispatch({ type: COURSE_UPDATE_RESET });
+        history.push("/manage-courses");
       } else {
-        setTitle(course.title);
-        setWeeks(course.weeks);
-        setTuition(course.tuition);
-        setMinimumSkill(course.minimumSkill);
-        setDescription(course.description);
-        setScholarshipAvailable(course.scholarshipAvailable);
+        if (!course || !course.title || course._id !== courseId) {
+          dispatch(getCourse(courseId));
+        } else {
+          setTitle(course.title);
+          setWeeks(course.weeks);
+          setTuition(course.tuition);
+          setMinimumSkill(course.minimumSkill);
+          setDescription(course.description);
+          setScholarshipAvailable(course.scholarshipAvailable);
+        }
       }
     }
-  }, [dispatch, course, history, courseId, successUpdate]);
+  }, [dispatch, course, history, courseId, successUpdate, role]);
 
   const onSubmit = (e) => {
     e.preventDefault();

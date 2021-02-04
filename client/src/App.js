@@ -6,6 +6,7 @@ import ShowScreen from "./screens/ShowScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import BootcampsScreen from "./screens/BootcampsScreen";
+import BootcampsRadiusScreen from "./screens/BootcampsRadiusScreen";
 import BootcampScreen from "./screens/BootcampScreen";
 import ReviewsScreen from "./screens/ReviewsScreen";
 import AddReviewScreen from "./screens/AddReviewScreen";
@@ -21,6 +22,8 @@ import ManageAccountScreen from "./screens/ManageAccountScreen";
 import UpdatePasswordScreen from "./screens/UpdatePasswordScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import NewPasswordScreen from "./screens/NewPasswordScreen";
+import AdminManageBootcampsScreen from "./screens/admin/AdminManageBootcampsScreen";
+import AdminManageCoursesScreen from "./screens/admin/AdminManageCoursesScreen";
 
 import PrivateRoute from "./components/PrivateRoute";
 import PrivateRouteRole from "./components/PrivaRouteRole";
@@ -34,6 +37,7 @@ const App = () => {
       <Route path="/login" component={LoginScreen} exact />
       <Route path="/register" component={RegisterScreen} exact />
       <Route path="/bootcamps" component={BootcampsScreen} exact />
+      <Route path="/bootcampsradius" component={BootcampsRadiusScreen} exact />
       <Route path="/bootcamps/:id" component={BootcampScreen} exact />
       {/* <Route path="/bootcamps/:slug" component={BootcampScreen} exact /> */}
       <PrivateRoute path="/add-bootcamp" component={AddBootcampScreen} exact />
@@ -45,6 +49,11 @@ const App = () => {
       <PrivateRouteRole
         path="/manage-bootcamp"
         component={ManageBootcampScreen}
+        exact
+      />
+      <PrivateRouteRole
+        path="/admin-manage-bootcamps"
+        component={AdminManageBootcampsScreen}
         exact
       />
       <Route path="/reviews/:id" component={ReviewsScreen} exact />
@@ -70,6 +79,11 @@ const App = () => {
       <PrivateRoute
         path="/manage-courses"
         component={ManageCoursesScreen}
+        exact
+      />
+      <PrivateRoute
+        path="/admin-manage-courses/:id"
+        component={AdminManageCoursesScreen}
         exact
       />
       <PrivateRoute

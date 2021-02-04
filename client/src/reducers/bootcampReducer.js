@@ -33,6 +33,7 @@ import {
   GET_BOOTCAMPS_RADIUS_SUCCESS,
   GET_BOOTCAMPS_RADIUS_FAIL,
   GET_BOOTCAMP_RADIUS_RESET,
+  GET_BOOTCAMP_RESET,
 } from "../constants/bootcampConstants";
 
 export const bootcampListReducer = (state = { bootcamps: [] }, action) => {
@@ -44,7 +45,7 @@ export const bootcampListReducer = (state = { bootcamps: [] }, action) => {
         loading: false,
         bootcamps: action.payload.data,
         pages: action.payload.pagination,
-        page: action.payload.count,
+        count: action.payload.count,
         success: action.payload.success,
       };
     case GET_BOOTCAMPS_FAIL:
@@ -66,6 +67,8 @@ export const getBootcampReducer = (state = { bootcamp: {} }, action) => {
       };
     case GET_BOOTCAMP_FAIL:
       return { loading: false, error: action.payload };
+    case GET_BOOTCAMP_RESET:
+      return {};
     default:
       return state;
   }

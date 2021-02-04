@@ -61,7 +61,7 @@ const Nav = () => {
                   <i className="fas fa-user"></i> Account
                 </a>
                 <div className="dropdown-menu">
-                  {role === "publisher" ? (
+                  {role === "publisher" || "admin" ? (
                     <Link to="/manage-bootcamp" className="dropdown-item">
                       Manage Bootcamp
                     </Link>
