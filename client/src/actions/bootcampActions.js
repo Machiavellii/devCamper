@@ -33,15 +33,16 @@ import {
   UPLOAD_BOOTCAMP_COVER_SUCCESS,
 } from "../constants/bootcampConstants";
 
-export const listBootcamps = (page = "", limit = "") => async (dispatch) => {
+export const listBootcamps = (query) => async (dispatch) => {
   try {
     dispatch({
       type: GET_BOOTCAMPS_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `api/v1/bootcamps?page=${page}&limit=${limit}`
-    );
+    // console.log(JSON.stringify(query));
+    // console.log(query);
+
+    const { data } = await axios.get(`api/v1/bootcamps`);
 
     dispatch({
       type: GET_BOOTCAMPS_SUCCESS,

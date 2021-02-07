@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { listBootcamps, radiusBootcamps } from "../actions/bootcampActions";
@@ -8,6 +8,7 @@ import Message from "../components/Message";
 
 import { GET_BOOTCAMP_RADIUS_RESET } from "../constants/bootcampConstants";
 import Pagination from "../components/Pagination";
+import qs from "query-string";
 
 const BootcampsScreen = ({ match }) => {
   const limit = match.params.limit || 2;
@@ -15,6 +16,7 @@ const BootcampsScreen = ({ match }) => {
   const [miles, setMiles] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [averageCost, setAverageCost] = useState("");
 
   const dispatch = useDispatch();
 
@@ -28,8 +30,23 @@ const BootcampsScreen = ({ match }) => {
     bootcamps: bootcampsRadius,
   } = radius;
 
+  const queryParam = qs.parse(useLocation().search);
+
+  const pagelimit = {
+    ...queryParam,
+    page: "2",
+    limit,
+  };
+
+  // console.log(qs.stringify(pagelimit));
+
+  // const aveCost = {
+  //   ...queryParam,
+  //   averageCost[gte]: averageCost,
+  // };
+
   useEffect(() => {
-    dispatch(listBootcamps("", limit));
+    dispatch(listBootcamps(pagelimit));
   }, [dispatch, limit]);
 
   const onSubmit = (e) => {
@@ -56,7 +73,7 @@ const BootcampsScreen = ({ match }) => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  console.log(currentContent);
+  // console.log(currentContent);
 
   return (
     <section className="browse my-6">
@@ -142,7 +159,10 @@ const BootcampsScreen = ({ match }) => {
 
               <div className="form-group">
                 <label> Rating</label>
-                <select className="custom-select mb-2">
+                <select
+                  className="custom-select mb-2"
+                  onChange={(e) => console.log(e.target.value)}
+                >
                   <option value="any" defaultValue>
                     Any
                   </option>
@@ -159,7 +179,10 @@ const BootcampsScreen = ({ match }) => {
 
               <div className="form-group">
                 <label> Budget</label>
-                <select className="custom-select mb-2">
+                <select
+                  className="custom-select mb-2"
+                  onChange={(e) => setAverageCost(e.target.value)}
+                >
                   <option value="any" defaultValue>
                     Any
                   </option>
@@ -270,11 +293,13 @@ const BootcampsScreen = ({ match }) => {
                   </div>
                 ))}
 
-            <Pagination
-              contentsPerPage={limit}
-              totalContent={bootcamps.length}
-              paginate={paginate}
-            />
+            {bootcampsRadius.length < 1 && (
+              <Pagination
+                contentsPerPage={limit}
+                totalContent={bootcamps.length}
+                paginate={paginate}
+              />
+            )}
           </div>
         </div>
       </div>

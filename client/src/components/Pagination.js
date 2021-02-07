@@ -7,16 +7,18 @@ const Pagination = ({ contentsPerPage, totalContent, paginate }) => {
     contentNumbers.push(i);
   }
 
-  console.log(contentNumbers);
-
   return (
     <nav>
       <ul className="pagination">
         {contentNumbers.map((number) => (
           <li key={number} className="page-item">
-            <a onClick={() => paginate(number)} className="page-link">
+            <span
+              onClick={() => paginate(number)}
+              className="page-link"
+              style={{ cursor: "pointer" }}
+            >
               {number}
-            </a>
+            </span>
           </li>
         ))}
       </ul>
