@@ -84,14 +84,20 @@ const EditCourseScreen = ({ match, history }) => {
         <div className="col-md-8 m-auto">
           <div className="card bg-white py-2 px-4">
             <div className="card-body">
-              <Link
-                to="/manage-courses"
-                className="btn btn-link text-secondary my-3"
-              >
-                <i className="fas fa-chevron-left"></i> Manage Courses
-              </Link>
-              <h1 className="mb-2">DevWorks Bootcamp</h1>
-              <h3 className="text-primary mb-4">Edit Course</h3>
+              {!course || !course.bootcamp || undefined ? (
+                ""
+              ) : (
+                <Link
+                  to={
+                    role === "admin"
+                      ? `/admin-manage-courses/${course.bootcamp._id}`
+                      : "/manage-courses"
+                  }
+                  className="btn btn-link text-secondary my-3"
+                >
+                  <i className="fas fa-chevron-left"></i> Manage Courses
+                </Link>
+              )}
 
               {loadingUpdate && <Spinner />}
               {errorUpdate && (
@@ -106,6 +112,9 @@ const EditCourseScreen = ({ match, history }) => {
                   {error}
                 </Message>
               )}
+
+              <h1 className="mb-2">DevWorks Bootcamp</h1>
+              <h3 className="text-primary mb-4">Edit Course</h3>
 
               <form onSubmit={onSubmit}>
                 <div className="form-group">

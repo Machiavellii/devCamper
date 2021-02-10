@@ -34,15 +34,13 @@ const AdminManageCoursesScreen = ({ match }) => {
 
   useEffect(() => {
     dispatch(getBootcamp(bootcampId));
-  }, [dispatch]);
+  }, [dispatch, bootcampId]);
 
   useEffect(() => {
     if (success) {
       dispatch(getBootcampCourse(bootcampId));
     }
-
-    // eslint-disable-next-line
-  }, [dispatch, success, successDelete]);
+  }, [dispatch, success, successDelete, bootcampId]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -57,7 +55,7 @@ const AdminManageCoursesScreen = ({ match }) => {
           <div className="card bg-white py-2 px-4">
             <div className="card-body">
               <Link
-                to="/manage-bootcamp"
+                to="/admin-manage-bootcamps"
                 className="btn btn-link text-secondary my-3"
               >
                 <i className="fas fa-chevron-left"></i> Manage Bootcamp

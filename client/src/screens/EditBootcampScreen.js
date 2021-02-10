@@ -59,7 +59,7 @@ const EditBootcampScreen = ({ match, history }) => {
         setAcceptGi(bootcamp.acceptGi);
       }
     }
-  }, [dispatch, bootcamp, successUpdate, history]);
+  }, [dispatch, bootcamp, successUpdate, history, bootcampId]);
 
   const onCheckBox = (e, item) => {
     if (careers.indexOf(e.target.value) < 1 && e.target.checked) {

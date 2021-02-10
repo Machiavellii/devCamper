@@ -11,12 +11,13 @@ import Pagination from "../components/Pagination";
 import qs from "query-string";
 
 const BootcampsScreen = ({ match }) => {
-  const limit = match.params.limit || 2;
+  const limit = match.params.limit || 5;
 
   const [miles, setMiles] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [averageCost, setAverageCost] = useState("");
+  const [toggleSortByName, setToggleSortByName] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -32,22 +33,14 @@ const BootcampsScreen = ({ match }) => {
 
   const queryParam = qs.parse(useLocation().search);
 
-  const pagelimit = {
+  const sortName = {
     ...queryParam,
-    page: "2",
-    limit,
+    sort: toggleSortByName ? "name" : "-name",
   };
 
-  // console.log(qs.stringify(pagelimit));
-
-  // const aveCost = {
-  //   ...queryParam,
-  //   averageCost[gte]: averageCost,
-  // };
-
   useEffect(() => {
-    dispatch(listBootcamps(pagelimit));
-  }, [dispatch, limit]);
+    dispatch(listBootcamps(sortName));
+  }, [dispatch, toggleSortByName]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -72,8 +65,6 @@ const BootcampsScreen = ({ match }) => {
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // console.log(currentContent);
 
   return (
     <section className="browse my-6">
@@ -144,18 +135,23 @@ const BootcampsScreen = ({ match }) => {
 
             <h4>Filter</h4>
             <form>
-              {/* <div className="form-group">
-            <label> Career</label>
-            <select className="custom-select mb-2">
-              <option value="any" selected>Any</option>
-              <option value="Web Development">Web Development</option>
-              <option value="Mobile Development">Mobile Development</option>
-              <option value="UI/UX">UI/UX</option>
-              <option value="Data Science">Data Science</option>
-              <option value="Business">Business</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>  */}
+              <div className="form-group">
+                <label> Career</label>
+                <select
+                  className="custom-select mb-2"
+                  onChange={(e) => console.log(e.target.value)}
+                >
+                  <option value="any" defaultValue>
+                    Any
+                  </option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Mobile Development">Mobile Development</option>
+                  <option value="UI/UX">UI/UX</option>
+                  <option value="Data Science">Data Science</option>
+                  <option value="Business">Business</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
 
               <div className="form-group">
                 <label> Rating</label>
@@ -181,7 +177,8 @@ const BootcampsScreen = ({ match }) => {
                 <label> Budget</label>
                 <select
                   className="custom-select mb-2"
-                  onChange={(e) => setAverageCost(e.target.value)}
+                  // onChange={(e) => setAverageCost(e.target.value)}
+                  onChange={(e) => console.log(e.target.value)}
                 >
                   <option value="any" defaultValue>
                     Any
@@ -293,13 +290,19 @@ const BootcampsScreen = ({ match }) => {
                   </div>
                 ))}
 
-            {bootcampsRadius.length < 1 && (
-              <Pagination
-                contentsPerPage={limit}
-                totalContent={bootcamps.length}
-                paginate={paginate}
-              />
-            )}
+            <Pagination
+              contentsPerPage={limit}
+              totalContent={bootcamps.length}
+              paginate={paginate}
+            />
+
+            <span
+              onClick={(e) => setToggleSortByName(!toggleSortByName)}
+              style={{ cursor: "pointer", border: "unset" }}
+              className="page-link float-right"
+            >
+              {toggleSortByName ? "Reset Sort" : "Sort By Name"}
+            </span>
           </div>
         </div>
       </div>

@@ -32,6 +32,7 @@ import {
   UPLOAD_BOOTCAMP_COVER_REQUEST,
   UPLOAD_BOOTCAMP_COVER_SUCCESS,
 } from "../constants/bootcampConstants";
+import qs from "query-string";
 
 export const listBootcamps = (query) => async (dispatch) => {
   try {
@@ -39,10 +40,9 @@ export const listBootcamps = (query) => async (dispatch) => {
       type: GET_BOOTCAMPS_REQUEST,
     });
 
-    // console.log(JSON.stringify(query));
-    // console.log(query);
+    // console.log(qs.stringify(query));
 
-    const { data } = await axios.get(`api/v1/bootcamps`);
+    const { data } = await axios.get(`api/v1/bootcamps?${qs.stringify(query)}`);
 
     dispatch({
       type: GET_BOOTCAMPS_SUCCESS,
