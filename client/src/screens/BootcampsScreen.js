@@ -16,8 +16,12 @@ const BootcampsScreen = ({ match }) => {
   const [miles, setMiles] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [averageCost, setAverageCost] = useState("");
   const [toggleSortByName, setToggleSortByName] = useState(false);
+
+  // const [careerFilter, setCareerFilter] = useState("");
+  const [ratingFilter, setRatingFilter] = useState("");
+  const [averageCostFilter, setAverageCostFilter] = useState("");
+  const [filterBootcamps, setFilterBootcamps] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -40,6 +44,7 @@ const BootcampsScreen = ({ match }) => {
 
   useEffect(() => {
     dispatch(listBootcamps(sortName));
+    // eslint-disable-next-line
   }, [dispatch, toggleSortByName]);
 
   const onSubmit = (e) => {
@@ -50,8 +55,25 @@ const BootcampsScreen = ({ match }) => {
     setZipcode("");
   };
 
+  const onSubmitFilter = (e) => {
+    e.preventDefault();
+
+    setFilterBootcamps("");
+
+    bootcamps.filter((bootcamp) => {
+      if (
+        bootcamp.averageCost <= +averageCostFilter &&
+        bootcamp.averageRating >= +ratingFilter
+      ) {
+        setFilterBootcamps((filterBootcamps) => [...filterBootcamps, bootcamp]);
+      }
+    });
+    e.target.reset();
+  };
+
   const onClick = () => {
     dispatch({ type: GET_BOOTCAMP_RADIUS_RESET });
+    setFilterBootcamps("");
   };
 
   // Get current posts
@@ -65,6 +87,8 @@ const BootcampsScreen = ({ match }) => {
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // console.log(filterBootcamps);
 
   return (
     <section className="browse my-6">
@@ -134,12 +158,12 @@ const BootcampsScreen = ({ match }) => {
             </div>
 
             <h4>Filter</h4>
-            <form>
-              <div className="form-group">
+            <form onSubmit={onSubmitFilter}>
+              {/* <div className="form-group">
                 <label> Career</label>
                 <select
                   className="custom-select mb-2"
-                  onChange={(e) => console.log(e.target.value)}
+                  onChange={(e) => setCareerFilter(e.target.value)}
                 >
                   <option value="any" defaultValue>
                     Any
@@ -151,13 +175,13 @@ const BootcampsScreen = ({ match }) => {
                   <option value="Business">Business</option>
                   <option value="Other">Other</option>
                 </select>
-              </div>
+              </div> */}
 
               <div className="form-group">
                 <label> Rating</label>
                 <select
                   className="custom-select mb-2"
-                  onChange={(e) => console.log(e.target.value)}
+                  onChange={(e) => setRatingFilter(e.target.value)}
                 >
                   <option value="any" defaultValue>
                     Any
@@ -177,8 +201,7 @@ const BootcampsScreen = ({ match }) => {
                 <label> Budget</label>
                 <select
                   className="custom-select mb-2"
-                  // onChange={(e) => setAverageCost(e.target.value)}
-                  onChange={(e) => console.log(e.target.value)}
+                  onChange={(e) => setAverageCostFilter(e.target.value)}
                 >
                   <option value="any" defaultValue>
                     Any
@@ -192,11 +215,18 @@ const BootcampsScreen = ({ match }) => {
                   <option value="2000">$2,000</option>
                 </select>
               </div>
-              <input
-                type="submit"
-                value="Find Bootcamps"
-                className="btn btn-primary btn-block"
-              />
+
+              {filterBootcamps.length > 0 ? (
+                <button className="btn btn-danger btn-block" onClick={onClick}>
+                  Reset Filter
+                </button>
+              ) : (
+                <input
+                  type="submit"
+                  value="Find Bootcamps"
+                  className="btn btn-primary btn-block"
+                />
+              )}
             </form>
           </div>
 
@@ -239,6 +269,50 @@ const BootcampsScreen = ({ match }) => {
                           <p className="card-text">
                             {bootcamp.careers.map((career, i) => (
                               <span key={i}>{career}/ </span>
+                            ))}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              : filterBootcamps.length > 0
+              ? filterBootcamps.map((bootcamp) => (
+                  <div className="card mb-3" key={bootcamp._id}>
+                    <div className="row no-gutters">
+                      <div className="col-md-4">
+                        <img
+                          src={`/uploads/${bootcamp.photo}`}
+                          className="card-img"
+                          alt={bootcamp.photo}
+                        />
+                      </div>
+                      <div className="col-md-8">
+                        <div className="card-body">
+                          <h5 className="card-title">
+                            <Link to={`/bootcamps/${bootcamp._id}`}>
+                              {bootcamp.name}
+                            </Link>
+                            {bootcamp.averageRating ? (
+                              <span className="float-right badge badge-success">
+                                {bootcamp.averageRating}
+                              </span>
+                            ) : (
+                              ""
+                            )}
+                          </h5>
+
+                          {bootcamp.location ? (
+                            <span className="badge badge-dark mb-2">
+                              {bootcamp.location.city}
+                            </span>
+                          ) : (
+                            ""
+                          )}
+
+                          <p className="card-text">
+                            {bootcamp.courses.map((course) => (
+                              <span key={course._id}>{course.title}/ </span>
                             ))}
                           </p>
                         </div>

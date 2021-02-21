@@ -68,6 +68,18 @@ const Nav = () => {
                   ) : (
                     ""
                   )}
+                  {role === "admin" ? (
+                    <>
+                      <Link to="/manage-users" className="dropdown-item">
+                        Manage Users
+                      </Link>
+                      <Link to="/add-user" className="dropdown-item">
+                        Create User
+                      </Link>
+                    </>
+                  ) : (
+                    ""
+                  )}
 
                   <Link className="dropdown-item" to="/manage-reviews">
                     Manage Reviews

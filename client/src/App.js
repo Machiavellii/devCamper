@@ -24,6 +24,9 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import NewPasswordScreen from "./screens/NewPasswordScreen";
 import AdminManageBootcampsScreen from "./screens/admin/AdminManageBootcampsScreen";
 import AdminManageCoursesScreen from "./screens/admin/AdminManageCoursesScreen";
+import AdminManageUsersScreen from "./screens/admin/AdminManageUsersScreen";
+import AdminEditUserScreen from "./screens/admin/AdminEditUserScreen";
+import AdminAddUserScreen from "./screens/admin/AdminAddUserScreen";
 
 import PrivateRoute from "./components/PrivateRoute";
 import PrivateRouteRole from "./components/PrivaRouteRole";
@@ -91,6 +94,17 @@ const App = () => {
         component={ManageAccountScreen}
         exact
       />
+      <PrivateRoute
+        path="/manage-users"
+        component={AdminManageUsersScreen}
+        exact
+      />
+      <PrivateRoute
+        path="/edit-user/:id"
+        component={AdminEditUserScreen}
+        exact
+      />
+      <PrivateRoute path="/add-user" component={AdminAddUserScreen} exact />
       <PrivateRoute
         path="/update-password"
         component={UpdatePasswordScreen}

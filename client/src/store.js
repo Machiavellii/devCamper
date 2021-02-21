@@ -40,6 +40,14 @@ import {
   createReviewReducer,
 } from "./reducers/reviewReducers";
 
+import {
+  getUsersAdminReducer,
+  userAdminDeleteReducer,
+  getUserReducer,
+  updateUserReducer,
+  createUserReducer,
+} from "./reducers/userAdminReducer";
+
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
@@ -67,6 +75,11 @@ const reducer = combineReducers({
   getReview: getReviewReducer,
   reviewUpdate: updateReviewReducer,
   reviewCreate: createReviewReducer,
+  adminUsers: getUsersAdminReducer,
+  deleteUser: userAdminDeleteReducer,
+  getAdminUser: getUserReducer,
+  updateAdminUser: updateUserReducer,
+  createUser: createUserReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

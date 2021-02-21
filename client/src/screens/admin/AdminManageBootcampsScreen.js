@@ -90,7 +90,6 @@ const AdminManageBootcampsScreen = ({ history }) => {
         {bootcamps.map((bootcamp) => (
           <div className="card bg-white col-md-6 mb-2" key={bootcamp.id}>
             <div className="card-body ">
-              {/* <div className="col-md-8"> */}
               <div className="card mb-3">
                 <div className="row no-gutters">
                   <div className="col-md-4">
@@ -138,7 +137,7 @@ const AdminManageBootcampsScreen = ({ history }) => {
                 </div>
               </div>
 
-              <form className="mb-4" onSubmit={onSubmit}>
+              {/* <form className="mb-4" onSubmit={onSubmit}>
                 <div className="form-group ">
                   <input
                     type="file"
@@ -157,7 +156,7 @@ const AdminManageBootcampsScreen = ({ history }) => {
                 />
 
                 <Progress percentage={uploadPercentage} />
-              </form>
+              </form> */}
 
               <Link
                 to={`/edit-bootcamp/${bootcamp.id}`}
@@ -177,8 +176,6 @@ const AdminManageBootcampsScreen = ({ history }) => {
               >
                 Remove Bootcamp
               </button>
-
-              {/* </div> */}
             </div>
           </div>
         ))}
